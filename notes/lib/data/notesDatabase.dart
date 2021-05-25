@@ -7,21 +7,21 @@ class NotesDataBase {
   NotesDataBase._();
   static NotesDataBase instance = NotesDataBase._();
 
-  static Database db = db;
+  static Database? db;
 
   Future<Database> get database async {
     if (db != null) {
-      return db;
+      return db!;
     } else {
       db = await initDB();
-      return db;
+      return db!;
     }
   }
 
   initDB() async {
     WidgetsFlutterBinding.ensureInitialized();
     return await openDatabase(
-      join(await getDatabasesPath(), "MeSNotes.db"),
+      join(await getDatabasesPath(), "database_notes.db"),
       onCreate: (db, i) {
         return db.execute(
           "CREATE TABLE note(titre TEXT,note TEXT,name TEXT,jour INT,mois INT,annee INT,heure INT,minute INT)",

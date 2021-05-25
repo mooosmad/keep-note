@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:notes/ajouterNotes.dart';
 import 'package:notes/data/notes.dart';
 import 'package:notes/data/notesDatabase.dart';
+import 'package:notes/modifierNotes.dart';
 
 void main (){
   runApp(MyApp());
@@ -75,21 +76,31 @@ class _Home extends State<Home>{
                 future: NotesDataBase.instance.notes(),
                 builder: (BuildContext context, AsyncSnapshot<List<DataNotes>>snapshot) {
                   if(snapshot.hasData){
-                    List<DataNotes>? mesNotes = snapshot.data;
+                    List<DataNotes>? database_notes = snapshot.data;
                     return  GridView.builder(
-                        itemCount: mesNotes!.length,
+                        itemCount: database_notes!.length,
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
-                        itemBuilder: (context,index){
-                          return Center(
+                        itemBuilder: (BuildContext context,index){
+                          return GestureDetector(
+                            onTap: (){
+                              Navigator.push(context, MaterialPageRoute(builder: (_)=>ModifierNotes(dataNotes: database_notes[index],)));
+                            },
                             child: Container(
-                              margin: EdgeInsets.all(8),
-                              height: 200,
-                              color: Colors.grey[200],
-                              child: Text(
-                                mesNotes[index].titre.toUpperCase(),
-                                style: TextStyle(
-                                    color: Colors.white),
-                              ),
+                                margin: EdgeInsets.all(8),
+                                height: 400,
+                                width: 400,
+                                color: Colors.grey[200],
+                                child: Column(
+                                  children: [
+                                    Text(database_notes[index].titre.toUpperCase()),
+                                    Text(database_notes[index].note.toUpperCase()),
+                                  ],
+                                ),
+                                // child: Text(
+                                //   database_notes[index].titre.toUpperCase(),
+                                //   style: TextStyle(
+                                //       color: Colors.black),
+                                // ),
                             ),
                           );
                     });

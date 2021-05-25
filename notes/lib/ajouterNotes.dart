@@ -42,7 +42,7 @@ class _AjouterNote extends State<AjouteNote> {
             'Enregistrer',
             style: TextStyle(
               fontSize: 20,
-              color: Colors.white,
+              color: Colors.black,
             ),
           ))
         ],
