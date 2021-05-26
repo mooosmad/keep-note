@@ -24,7 +24,7 @@ class NotesDataBase {
       join(await getDatabasesPath(), "database_notes.db"),
       onCreate: (db, i) {
         return db.execute(
-          "CREATE TABLE note(titre TEXT,note TEXT,name TEXT,jour INT,mois INT,annee INT,heure INT,minute INT)",
+          "CREATE TABLE note(id INT, titre TEXT,note TEXT,name TEXT,jour INT,mois INT,annee INT,heure INT,minute INT)",
         );
       },
       version: 1,
@@ -45,17 +45,17 @@ class NotesDataBase {
     await tdb.update(
       "note",
       dataNotes.toMap(),
-      where: "titre=?",
+      where: "id=?",
       whereArgs: [dataNotes.titre],
     );
   }
 
-  deleteNote(String titre) async {
+  deleteNote(int id) async {
     final Database tdb = await database;
     tdb.delete(
       "note",
-      where: "titre=?",
-      whereArgs: [titre],
+      where: "id=?",
+      whereArgs: [id],
     );
   }
 

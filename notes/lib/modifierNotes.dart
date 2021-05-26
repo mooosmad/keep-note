@@ -10,39 +10,39 @@ class ModifierNotes extends StatefulWidget {
 }
 
 class _ModifierNotesState extends State<ModifierNotes> {
-  // @override
-  // void initState() {
-  //   titre = widget.dataNotes.titre;
-  //   note = widget.dataNotes.note;
-  //   super.initState();
-  // }
+  var NewTitre, NewNote;
+  @override
+  void initState() {
+    super.initState();
+    NewTitre = widget.dataNotes.titre;
+    NewNote = widget.dataNotes.note;
+  }
 
   var titre ;
   var note;
+  var newData;
   @override
   Widget build(BuildContext context) {
-    print("${widget.dataNotes.titre}");
-    print("${widget.dataNotes.note}");
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color.fromRGBO(30, 80, 200, 1),
         actions: [
           FlatButton(
               onPressed: (){
-                Navigator.pop(context);
                 setState((){
-                    NotesDataBase.instance.updateNote(
-                      DataNotes(
-                        titre.toUpperCase(),
-                        note,
-                        datetoday().day,
-                        datetoday().month,
-                        datetoday().year,
-                        datetoday().hour,
-                        datetoday().minute,
-                      )
-                    );
+                  DataNotes newData = DataNotes(
+                    id:widget.dataNotes.id,
+                    titre: NewTitre,
+                    note: NewNote,
+                    j: widget.dataNotes.j,
+                    m: widget.dataNotes.m,
+                    y: widget.dataNotes.y,
+                    heure: widget.dataNotes.heure,
+                    minute: widget.dataNotes.minute,
+                  );
                 });
+                NotesDataBase.instance.updateNote(newData);
+                Navigator.pop(context);
               }, child: Text(
             'Enregistrer',
             style: TextStyle(
@@ -68,9 +68,9 @@ class _ModifierNotesState extends State<ModifierNotes> {
                       ),
                       border : InputBorder.none,
                     ),
-                    onChanged: (t) {
+                    onChanged: (titre) {
                       setState(() {
-                        titre = t;
+                        NewTitre = titre;
                       });
                     },
                     keyboardType: TextInputType.text,
@@ -90,9 +90,9 @@ class _ModifierNotesState extends State<ModifierNotes> {
                       ),
                       border : InputBorder.none,
                     ),
-                    onChanged: (n) {
+                    onChanged: (note) {
                       setState(() {
-                        note = n;
+                        NewNote = note;
                       });
                     },
                     keyboardType: TextInputType.text,

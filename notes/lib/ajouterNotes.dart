@@ -3,7 +3,6 @@ import 'package:notes/data/notes.dart';
 import 'package:notes/data/notesDatabase.dart';
 import 'package:flutter/cupertino.dart';
 
-
 class AjouteNote extends StatefulWidget{
   @override
   State<StatefulWidget>createState(){
@@ -14,6 +13,8 @@ class AjouteNote extends StatefulWidget{
 class _AjouterNote extends State<AjouteNote> {
   var titre ;
   var note;
+  List<DataNotes>? menotes = []; //pour gerer l'actualisation
+  List<DataNotes>? compteur = []; //pour gerer les id uniques
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,13 +28,16 @@ class _AjouterNote extends State<AjouteNote> {
                if (titre != null && note != null ) {
                  NotesDataBase.instance.insertNote(
                      DataNotes(
-                       titre.toUpperCase(),
-                       note,
-                       datetoday().day,
-                       datetoday().month,
-                       datetoday().year,
-                       datetoday().hour,
-                       datetoday().minute,
+                       id: compteur!.isEmpty
+                           ? 1
+                           : (compteur?[compteur!.length - 1].id)! + 1,
+                       titre: titre.toUpperCase(),
+                       note: note,
+                       j: datetoday().day,
+                       m:datetoday().month,
+                       y: datetoday().year,
+                       heure: datetoday().hour,
+                       minute: datetoday().minute,
                      ),
                  );
                }
