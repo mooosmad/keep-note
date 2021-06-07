@@ -1,30 +1,29 @@
-
 class DataNotes {
-  int id = 0;
-  String titre = '';
-  String note = '';
-  int j = 0;
-  int m = 0;
-  int y = 0;
-  int heure = 0;
-  int minute = 0;
+  int? id ;
+  String? titre;
+  String? note;
+  int? j;
+  int? m ;
+  int? y ;
+  int? heure ;
+  int? minute ;
   DataNotes(
       {int? id,
         String? titre,
-        String ?note,
+        String? note,
         int? j,
         int? m,
         int? y,
         int? heure,
         int? minute}) {
-    this.id = id!;
-    this.titre = titre!;
-    this.note = note!;
-    this.heure = heure!;
-    this.minute = minute!;
-    this.j = j!;
-    this.m = m!;
-    this.y = y!;
+    this.id = id;
+    this.titre = titre;
+    this.note = note;
+    this.heure = heure;
+    this.minute = minute;
+    this.j = j;
+    this.m = m;
+    this.y = y;
   }
 
 

@@ -1,4 +1,4 @@
-package com.smad.notes.notes
+package com.smad.notes
 
 import io.flutter.embedding.android.FlutterActivity
 

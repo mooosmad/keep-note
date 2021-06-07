@@ -21,13 +21,13 @@ class NotesDataBase {
   initDB() async {
     WidgetsFlutterBinding.ensureInitialized();
     return await openDatabase(
-      join(await getDatabasesPath(), "database_notes.db"),
+      join(await getDatabasesPath(), "datab_note.db"),
       onCreate: (db, i) {
         return db.execute(
-          "CREATE TABLE note(id INT, titre TEXT,note TEXT,name TEXT,jour INT,mois INT,annee INT,heure INT,minute INT)",
+          "CREATE TABLE note(id INTEGER PRIMARY KEY AUTOINCREMENT, titre TEXT,note TEXT,name TEXT,jour INT,mois INT,annee INT,heure INT,minute INT)",
         );
       },
-      version: 1,
+      version: 2,
     );
   }
 
@@ -46,7 +46,7 @@ class NotesDataBase {
       "note",
       dataNotes.toMap(),
       where: "id=?",
-      whereArgs: [dataNotes.titre],
+      whereArgs: [dataNotes.id],
     );
   }
 
@@ -64,7 +64,7 @@ class NotesDataBase {
     List<Map<String, dynamic>> maps = await tdb.query("note");
     List<DataNotes> mesnotes = List.generate(
       maps.length,
-          (index) {
+      (index) {
         return DataNotes.fromMap(maps[index]);
       },
     );
@@ -78,5 +78,4 @@ class NotesDataBase {
     */
     return mesnotes;
   }
-  
 }

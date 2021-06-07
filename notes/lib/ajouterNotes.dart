@@ -3,16 +3,17 @@ import 'package:notes/data/notes.dart';
 import 'package:notes/data/notesDatabase.dart';
 import 'package:flutter/cupertino.dart';
 
-class AjouteNote extends StatefulWidget{
+class AjouteNote extends StatefulWidget {
   @override
-  State<StatefulWidget>createState(){
+  State<StatefulWidget> createState() {
     return _AjouterNote();
   }
 }
 
 class _AjouterNote extends State<AjouteNote> {
-  var titre ;
+  var titre;
   var note;
+  var id;
   List<DataNotes>? menotes = []; //pour gerer l'actualisation
   List<DataNotes>? compteur = []; //pour gerer les id uniques
   @override
@@ -22,33 +23,32 @@ class _AjouterNote extends State<AjouteNote> {
         backgroundColor: Color.fromRGBO(30, 80, 200, 1),
         actions: [
           FlatButton(
-              onPressed: (){
-            Navigator.pop(context);
-             setState((){
-               if (titre != null && note != null ) {
-                 NotesDataBase.instance.insertNote(
-                     DataNotes(
-                       id: compteur!.isEmpty
-                           ? 1
-                           : (compteur?[compteur!.length - 1].id)! + 1,
-                       titre: titre.toUpperCase(),
-                       note: note,
-                       j: datetoday().day,
-                       m:datetoday().month,
-                       y: datetoday().year,
-                       heure: datetoday().hour,
-                       minute: datetoday().minute,
-                     ),
-                 );
-               }
-            });
-          }, child: Text(
-            'Enregistrer',
-            style: TextStyle(
-              fontSize: 20,
-              color: Colors.black,
-            ),
-          ))
+              onPressed: () {
+                Navigator.pop(context);
+                setState(() {
+                  if (titre != null && note != null) {
+                    NotesDataBase.instance.insertNote(
+                      DataNotes(
+                        id: id,
+                        titre: titre.toUpperCase(),
+                        note: note,
+                        j: datetoday().day,
+                        m: datetoday().month,
+                        y: datetoday().year,
+                        heure: datetoday().hour,
+                        minute: datetoday().minute,
+                      ),
+                    );
+                  }
+                });
+              },
+              child: Text(
+                'Enregistrer',
+                style: TextStyle(
+                  fontSize: 20,
+                  color: Colors.black,
+                ),
+              ))
         ],
       ),
       body: Column(
@@ -61,43 +61,39 @@ class _AjouterNote extends State<AjouteNote> {
                   child: TextField(
                     decoration: InputDecoration(
                       hintText: 'Titre',
-                      hintStyle: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
-                      border : InputBorder.none,
+                      border: InputBorder.none,
                     ),
+                    style: TextStyle(
+                        fontSize: 28.0,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black),
+                    keyboardType: TextInputType.multiline,
+                    maxLines: 1,
                     onChanged: (t) {
                       setState(() {
                         titre = t;
                       });
                     },
-                    keyboardType: TextInputType.text,
-                    obscureText: false,
-                    maxLength: 20,
-                    maxLines: 1,
-                    autocorrect: true,
                   ),
                 ),
                 Container(
                   child: TextField(
                     decoration: InputDecoration(
-                      hintText: 'Notes',
-                      hintStyle: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                      border : InputBorder.none,
+                      hintText: 'Ecrivez quelque choses...',
+                      border: InputBorder.none,
                     ),
+                    style: TextStyle(
+                      color: Colors.black,
+                    ),
+                    keyboardType: TextInputType.multiline,
+                    maxLines: null,
                     onChanged: (n) {
                       setState(() {
                         note = n;
                       });
                     },
-                    keyboardType: TextInputType.text,
-                    autocorrect: true,
                   ),
-                )
+                ),
               ],
             ),
           ),
@@ -110,6 +106,4 @@ class _AjouterNote extends State<AjouteNote> {
     DateTime t = DateTime.now();
     return t;
   }
-
 }
-
