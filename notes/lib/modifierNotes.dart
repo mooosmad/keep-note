@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:notes/data/notes.dart';
 import 'package:notes/data/notesDatabase.dart';
 
+// ignore: must_be_immutable
 class ModifierNotes extends StatefulWidget {
   DataNotes dataNotes;
   ModifierNotes({required this.dataNotes});
@@ -10,101 +11,121 @@ class ModifierNotes extends StatefulWidget {
 }
 
 class _ModifierNotesState extends State<ModifierNotes> {
-  var NewTitre, NewNote;
+  var NewTitre, NewNote, NewID;
   @override
   void initState() {
     NewTitre = widget.dataNotes.titre;
     NewNote = widget.dataNotes.note;
+    NewID = widget.dataNotes.id;
     super.initState();
   }
 
-  var titre ;
+  var titre;
   var note;
   var newData;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xFF1F1D2B),
       appBar: AppBar(
-        backgroundColor: Color.fromRGBO(30, 80, 200, 1),
+        elevation: 0,
+        backgroundColor: Color(0xFF1F1D2B),
         actions: [
-          ElevatedButton(
-                onPressed: (){
-                  setState((){
-                    DataNotes newData = DataNotes(
-                      id:widget.dataNotes.id,
-                      titre: NewTitre,
-                      note: NewNote,
-                      j: widget.dataNotes.j,
-                      m: widget.dataNotes.m,
-                      y: widget.dataNotes.y,
-                      heure: widget.dataNotes.heure,
-                      minute: widget.dataNotes.minute,
-                    );
-                    NotesDataBase.instance.updateNote(newData);
-                    Navigator.pop(context);
-                  });
-                }, child: Text(
-              'Enregistrer',
-              style: TextStyle(
-                fontSize: 20,
-                color: Colors.white,
-              ),
-            )),
+          // ignore: deprecated_member_use
+          FlatButton(
+              onPressed: () {
+                setState(() {
+                  DataNotes newData = DataNotes(
+                    id: widget.dataNotes.id,
+                    titre: NewTitre,
+                    note: NewNote,
+                    j: widget.dataNotes.j,
+                    m: widget.dataNotes.m,
+                    y: widget.dataNotes.y,
+                    heure: widget.dataNotes.heure,
+                    minute: widget.dataNotes.minute,
+                  );
+                  NotesDataBase.instance.updateNote(newData);
+                  Navigator.pop(context);
+                });
+              },
+              child: Text(
+                'Enregistrer',
+                style: TextStyle(
+                  fontSize: 20,
+                  color: Colors.white,
+                ),
+              )),
+          IconButton(
+            onPressed: () {
+              setState(() {
+                NotesDataBase.instance.deleteNote(NewID);
+                Navigator.pop(context);
+              });
+            },
+            icon: Icon(Icons.delete),
+          )
         ],
       ),
-      body: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Column(
-              children: [
-                Container(
-                  child: TextFormField(
-                      initialValue:"$NewTitre",
+      body: SingleChildScrollView(
+        scrollDirection: Axis.vertical,
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Column(
+                children: [
+                  Container(
+                    child: TextFormField(
+                      initialValue: "$NewTitre",
                       decoration: InputDecoration(
-                        hintText: 'Titre',
                         hintStyle: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
+                          color: Colors.white70,
                         ),
-                        border : InputBorder.none,
+                        hintText: 'Titre',
+                        border: InputBorder.none,
                       ),
+                      style: TextStyle(
+                          fontSize: 25.0,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white70),
+                      keyboardType: TextInputType.multiline,
+                      maxLines: null,
                       onChanged: (titre) {
                         setState(() {
                           NewTitre = titre;
                         });
                       },
-                      keyboardType: TextInputType.text,
-                      obscureText: false,
-                      maxLength: 20,
-                      maxLines: 1,
-                      autocorrect: true,
+                    ),
                   ),
-                ),
-                Container(
-                  child: TextFormField(
-                      initialValue:"$NewNote",
+                  Container(
+                    child: TextFormField(
+                      scrollPhysics: ScrollPhysics(),
+                      initialValue: "$NewNote",
                       decoration: InputDecoration(
-                        hintText: 'Notes',
                         hintStyle: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
+                          color: Colors.white70,
                         ),
-                        border : InputBorder.none,
+                        hintText: 'Ecrivez quelque choses...',
+                        border: InputBorder.none,
                       ),
+                      style: TextStyle(
+                        color: Colors.white70,
+                      ),
+                      keyboardType: TextInputType.multiline,
+                      maxLines: null,
                       onChanged: (note) {
                         setState(() {
                           NewNote = note;
                         });
                       },
-                      keyboardType: TextInputType.text,
-                      autocorrect: true,
-                  ),
-                )
-              ],
+                    ),
+                  )
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -113,5 +134,4 @@ class _ModifierNotesState extends State<ModifierNotes> {
     DateTime t = DateTime.now();
     return t;
   }
-
 }

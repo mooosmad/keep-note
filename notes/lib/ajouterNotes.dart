@@ -19,18 +19,25 @@ class _AjouterNote extends State<AjouteNote> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xFF1F1D2B),
       appBar: AppBar(
-        backgroundColor: Color.fromRGBO(30, 80, 200, 1),
+        elevation: 0,
+        backgroundColor: Color(0xFF1F1D2B),
         actions: [
+          // ignore: deprecated_member_use
           FlatButton(
               onPressed: () {
                 Navigator.pop(context);
                 setState(() {
-                  if (titre != null && note != null) {
+                  if (titre != null && note != null ||
+                      note != null ||
+                      titre == " " ||
+                      titre != null ||
+                      note == " ") {
                     NotesDataBase.instance.insertNote(
                       DataNotes(
                         id: id,
-                        titre: titre.toUpperCase(),
+                        titre: titre,
                         note: note,
                         j: datetoday().day,
                         m: datetoday().month,
@@ -46,58 +53,68 @@ class _AjouterNote extends State<AjouteNote> {
                 'Enregistrer',
                 style: TextStyle(
                   fontSize: 20,
-                  color: Colors.black,
+                  color: Colors.white,
                 ),
               ))
         ],
       ),
-      body: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Column(
-              children: [
-                Container(
-                  child: TextField(
-                    decoration: InputDecoration(
-                      hintText: 'Titre',
-                      border: InputBorder.none,
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Column(
+                children: [
+                  Container(
+                    child: TextField(
+                      textCapitalization: TextCapitalization.sentences,
+                      decoration: InputDecoration(
+                        hintStyle: TextStyle(
+                          color: Colors.white70,
+                        ),
+                        hintText: 'Titre',
+                        border: InputBorder.none,
+                      ),
+                      style: TextStyle(
+                          fontSize: 25.0,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white70),
+                      keyboardType: TextInputType.multiline,
+                      maxLines: null,
+                      onChanged: (t) {
+                        setState(() {
+                          titre = t;
+                        });
+                      },
                     ),
-                    style: TextStyle(
-                        fontSize: 28.0,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black),
-                    keyboardType: TextInputType.multiline,
-                    maxLines: 1,
-                    onChanged: (t) {
-                      setState(() {
-                        titre = t;
-                      });
-                    },
                   ),
-                ),
-                Container(
-                  child: TextField(
-                    decoration: InputDecoration(
-                      hintText: 'Ecrivez quelque choses...',
-                      border: InputBorder.none,
+                  Container(
+                    child: TextField(
+                      textCapitalization: TextCapitalization.sentences,
+                      decoration: InputDecoration(
+                        hintStyle: TextStyle(
+                          color: Colors.white70,
+                        ),
+                        hintText: 'Ecrivez quelque choses...',
+                        border: InputBorder.none,
+                      ),
+                      style: TextStyle(
+                        color: Colors.white70,
+                      ),
+                      keyboardType: TextInputType.multiline,
+                      maxLines: null,
+                      onChanged: (n) {
+                        setState(() {
+                          note = n;
+                        });
+                      },
                     ),
-                    style: TextStyle(
-                      color: Colors.black,
-                    ),
-                    keyboardType: TextInputType.multiline,
-                    maxLines: null,
-                    onChanged: (n) {
-                      setState(() {
-                        note = n;
-                      });
-                    },
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

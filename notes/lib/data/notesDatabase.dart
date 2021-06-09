@@ -21,7 +21,7 @@ class NotesDataBase {
   initDB() async {
     WidgetsFlutterBinding.ensureInitialized();
     return await openDatabase(
-      join(await getDatabasesPath(), "datab_note.db"),
+      join(await getDatabasesPath(), "databases_note.db"),
       onCreate: (db, i) {
         return db.execute(
           "CREATE TABLE note(id INTEGER PRIMARY KEY AUTOINCREMENT, titre TEXT,note TEXT,name TEXT,jour INT,mois INT,annee INT,heure INT,minute INT)",

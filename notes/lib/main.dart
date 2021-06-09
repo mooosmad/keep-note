@@ -33,17 +33,22 @@ class _Home extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromRGBO(30, 80, 200, 1),
+      backgroundColor: Color(0xFF1F1D2B),
       floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
+        child: Icon(
+          Icons.note_add,
+          color: Colors.white70,
+          size: 40,
+        ),
         onPressed: () {
           Navigator.push(
               context, MaterialPageRoute(builder: (_) => AjouteNote()));
         },
-        backgroundColor: Color.fromRGBO(30, 80, 200, 1),
+        elevation: 10.0,
+        backgroundColor: Color(0xFF4f4bbd),
       ),
-      appBar: new AppBar(
-        backgroundColor: Color.fromRGBO(30, 80, 200, 1),
+      appBar: AppBar(
+        backgroundColor: Color(0xFF1F1D2B),
         elevation: 0,
         toolbarHeight: 10,
       ),
@@ -51,34 +56,56 @@ class _Home extends State<Home> {
         children: [
           Flexible(
             flex: 1,
-            child: Container(
-              color: Colors.transparent,
-              child: Center(
-                child: Text(
-                  'Notes',
-                  style: TextStyle(
-                    fontSize: 29,
-                    color: Colors.white,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Container(
+                  margin: EdgeInsets.all(10.0),
+                  color: Colors.transparent,
+                  child: Align(
+                    alignment: Alignment(0.00, 0.00),
+                    child: Text(
+                      'Notes',
+                      style: TextStyle(
+                        fontSize: 30,
+                        color: Colors.white,
+                      ),
+                    ),
                   ),
                 ),
-              ),
+                Container(
+                  color: Colors.transparent,
+                  child: Align(
+                    alignment: Alignment.centerRight,
+                    child: IconButton(
+                      onPressed: () {},
+                      icon: Icon(
+                        Icons.settings,
+                        size: 30,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
           Flexible(
             flex: 7,
             child: Container(
               padding: EdgeInsets.only(
-                right: 25,
-                left: 25,
+                right: 15,
+                left: 15,
                 top: 35,
                 bottom: 20,
               ),
               width: double.infinity,
               decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.vertical(
-                    top: Radius.circular(40.0),
-                  )),
+                color: Color(0xFF1F1D2B),
+                borderRadius: BorderRadius.vertical(
+                  top: Radius.circular(40.0),
+                ),
+              ),
               child: FutureBuilder<List<DataNotes>>(
                 future: NotesDataBase.instance.notes(),
                 builder: (BuildContext context,
@@ -89,7 +116,13 @@ class _Home extends State<Home> {
                     return GridView.builder(
                         itemCount: menotes!.length,
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2),
+                          crossAxisCount: 2,
+                          mainAxisExtent: 250.0,
+                          // if (menotes!.notes.length > 20) {
+                          //   mainAxisExtent: 250.0,
+                          // } else {
+                          // }
+                        ),
                         itemBuilder: (BuildContext context, index) {
                           return GestureDetector(
                             onTap: () {
@@ -102,33 +135,53 @@ class _Home extends State<Home> {
                             },
                             child: Container(
                               margin: EdgeInsets.all(8),
-                              height: 400,
-                              width: 400,
                               decoration: BoxDecoration(
-                                color: Colors.grey[200],
+                                color: Color(0xFF272636),
+                                // border: Border.all(
+                                //     width: 0.5, color: const Color(0xFFFFFFFF)),
                                 borderRadius: BorderRadius.vertical(
-                                  top: Radius.circular(10.0),
-                                  bottom: Radius.circular(10.0),
+                                  top: Radius.circular(20.0),
+                                  bottom: Radius.circular(20.0),
                                 ),
-                              ),
-                              child: Column(
-                                children: [
-                                  Text(
-                                    menotes![index].titre!.toUpperCase(),
-                                    maxLines: 1,
+                                boxShadow: [
+                                  BoxShadow(
+                                    blurRadius: 0.2,
+                                    offset: Offset(1.0, 1.0),
+                                    spreadRadius: 0.2,
+                                    color: Color(0xFFFFFF),
                                   ),
-                                  Text(
-                                    menotes![index].note!.toUpperCase(),
-                                    maxLines: 5,
-                                  ),
-                                  Text("${menotes![index].id!}"),
                                 ],
                               ),
-                              // child: Text(
-                              //   database_notes[index].titre.toUpperCase(),
-                              //   style: TextStyle(
-                              //       color: Colors.black),
-                              // ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    Text(
+                                      capitalize('${menotes![index].note}'),
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        color: Colors.white70,
+                                      ),
+                                      maxLines: 5,
+                                    ),
+                                    Text(
+                                      capitalize(
+                                          '${menotes![index].m}/${menotes![index].j}/${menotes![index].y}'),
+                                      maxLines: 1,
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        color: Colors.white70,
+                                      ),
+                                    ),
+                                    // Text(
+                                    //   "${menotes![index].id!}",
+                                    //   style: TextStyle(color: Colors.white),
+                                    // ),
+                                  ],
+                                ),
+                              ),
                             ),
                           );
                         });
@@ -144,6 +197,12 @@ class _Home extends State<Home> {
         ],
       ),
     );
+  }
+
+  String capitalize(String s) {
+    var newS;
+    newS = s[0].toUpperCase() + s.substring(1);
+    return newS;
   }
 
   @override

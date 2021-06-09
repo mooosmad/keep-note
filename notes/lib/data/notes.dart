@@ -1,21 +1,21 @@
 class DataNotes {
-  int? id ;
+  int? id;
   String? titre;
   String? note;
   int? j;
-  int? m ;
-  int? y ;
-  int? heure ;
-  int? minute ;
+  int? m;
+  int? y;
+  int? heure;
+  int? minute;
   DataNotes(
       {int? id,
-        String? titre,
-        String? note,
-        int? j,
-        int? m,
-        int? y,
-        int? heure,
-        int? minute}) {
+      String? titre,
+      String? note,
+      int? j,
+      int? m,
+      int? y,
+      int? heure,
+      int? minute}) {
     this.id = id;
     this.titre = titre;
     this.note = note;
@@ -26,10 +26,9 @@ class DataNotes {
     this.y = y;
   }
 
-
   Map<String, dynamic> toMap() {
     return {
-      "id" : id,
+      "id": id,
       "titre": titre,
       "note": note,
       "jour": j,
