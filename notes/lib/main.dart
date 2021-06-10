@@ -52,6 +52,7 @@ class _Home extends State<Home> {
         elevation: 0,
         toolbarHeight: 10,
       ),
+      // EFEDED background to the launcher
       body: Column(
         children: [
           Flexible(
@@ -159,7 +160,7 @@ class _Home extends State<Home> {
                                       MainAxisAlignment.spaceEvenly,
                                   children: [
                                     Text(
-                                      capitalize('${menotes![index].note}'),
+                                      capitalize(' ${menotes![index].note} '),
                                       style: TextStyle(
                                         fontSize: 16,
                                         color: Colors.white70,

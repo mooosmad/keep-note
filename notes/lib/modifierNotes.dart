@@ -32,30 +32,25 @@ class _ModifierNotesState extends State<ModifierNotes> {
         backgroundColor: Color(0xFF1F1D2B),
         actions: [
           // ignore: deprecated_member_use
-          FlatButton(
-              onPressed: () {
-                setState(() {
-                  DataNotes newData = DataNotes(
-                    id: widget.dataNotes.id,
-                    titre: NewTitre,
-                    note: NewNote,
-                    j: widget.dataNotes.j,
-                    m: widget.dataNotes.m,
-                    y: widget.dataNotes.y,
-                    heure: widget.dataNotes.heure,
-                    minute: widget.dataNotes.minute,
-                  );
-                  NotesDataBase.instance.updateNote(newData);
-                  Navigator.pop(context);
-                });
-              },
-              child: Text(
-                'Enregistrer',
-                style: TextStyle(
-                  fontSize: 20,
-                  color: Colors.white,
-                ),
-              )),
+          IconButton(
+            onPressed: () {
+              setState(() {
+                DataNotes newData = DataNotes(
+                  id: widget.dataNotes.id,
+                  titre: NewTitre,
+                  note: NewNote,
+                  j: widget.dataNotes.j,
+                  m: widget.dataNotes.m,
+                  y: widget.dataNotes.y,
+                  heure: widget.dataNotes.heure,
+                  minute: widget.dataNotes.minute,
+                );
+                NotesDataBase.instance.updateNote(newData);
+                Navigator.pop(context);
+              });
+            },
+            icon: Icon(Icons.save),
+          ),
           IconButton(
             onPressed: () {
               setState(() {

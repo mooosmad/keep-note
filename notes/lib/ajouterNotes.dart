@@ -29,11 +29,7 @@ class _AjouterNote extends State<AjouteNote> {
               onPressed: () {
                 Navigator.pop(context);
                 setState(() {
-                  if (titre != null && note != null ||
-                      note != null ||
-                      titre == " " ||
-                      titre != null ||
-                      note == " ") {
+                  if (titre != "" && note != "" || titre == "" || note == "") {
                     NotesDataBase.instance.insertNote(
                       DataNotes(
                         id: id,
@@ -74,6 +70,8 @@ class _AjouterNote extends State<AjouteNote> {
                         ),
                         hintText: 'Titre',
                         border: InputBorder.none,
+                        // filled: true,
+                        // fillColor: Color(0xFF272636),
                       ),
                       style: TextStyle(
                           fontSize: 25.0,
@@ -97,6 +95,8 @@ class _AjouterNote extends State<AjouteNote> {
                         ),
                         hintText: 'Ecrivez quelque choses...',
                         border: InputBorder.none,
+                        // filled: true,
+                        // fillColor: Color(0xFF1F1D2B),
                       ),
                       style: TextStyle(
                         color: Colors.white70,
