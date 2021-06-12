@@ -30,9 +30,19 @@ class Home extends StatefulWidget {
 class _Home extends State<Home> {
   List<DataNotes>? menotes = []; //pour gerer l'actualisation
   List<DataNotes>? compteur = []; //pour gerer les id uniques
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  // void _openDrawer() {
+  //   _scaffoldKey.currentState!.openDrawer();
+  // }
+
+  void _closeDrawer() {
+    Navigator.of(context).pop();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       backgroundColor: Color(0xFF1F1D2B),
       floatingActionButton: FloatingActionButton(
         child: Icon(
@@ -52,7 +62,6 @@ class _Home extends State<Home> {
         elevation: 0,
         toolbarHeight: 10,
       ),
-      // EFEDED background to the launcher
       body: Column(
         children: [
           Flexible(
@@ -79,12 +88,13 @@ class _Home extends State<Home> {
                   child: Align(
                     alignment: Alignment.centerRight,
                     child: IconButton(
-                      onPressed: () {},
                       icon: Icon(
                         Icons.settings,
                         size: 30,
                         color: Colors.white,
                       ),
+                      onPressed: () => _scaffoldKey.currentState!.openDrawer(),
+                      highlightColor: Color(0xFFFFFF),
                     ),
                   ),
                 ),
@@ -154,32 +164,46 @@ class _Home extends State<Home> {
                                 ],
                               ),
                               child: Padding(
-                                padding: const EdgeInsets.all(8.0),
+                                padding: const EdgeInsets.all(15.0),
                                 child: Column(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceEvenly,
                                   children: [
-                                    Text(
-                                      capitalize(' ${menotes![index].note} '),
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                        color: Colors.white70,
-                                      ),
-                                      maxLines: 5,
-                                    ),
-                                    Text(
-                                      capitalize(
-                                          '${menotes![index].m}/${menotes![index].j}/${menotes![index].y}'),
-                                      maxLines: 1,
-                                      style: TextStyle(
-                                        fontSize: 12,
-                                        color: Colors.white70,
+                                    Container(
+                                      child: Text(
+                                        capitalize(" ${menotes![index].note} "),
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                          color: Colors.white70,
+                                        ),
+                                        maxLines: 5,
+                                        textAlign: TextAlign.justify,
                                       ),
                                     ),
-                                    // Text(
-                                    //   "${menotes![index].id!}",
-                                    //   style: TextStyle(color: Colors.white),
-                                    // ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          capitalize(
+                                              '${menotes![index].j}/${menotes![index].m}'),
+                                          maxLines: 1,
+                                          style: TextStyle(
+                                            fontSize: 10,
+                                            color: Colors.white70,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        Text(
+                                          "  ${menotes![index].titre}  ",
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 10,
+                                          ),
+                                          maxLines: 1,
+                                        ),
+                                      ],
+                                    ),
                                   ],
                                 ),
                               ),
@@ -196,6 +220,21 @@ class _Home extends State<Home> {
             ),
           ),
         ],
+      ),
+      // endDrawerEnableOpenDragGesture: false,
+      endDrawer: Drawer(
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              const Text('This is the Drawer'),
+              ElevatedButton(
+                onPressed: _closeDrawer,
+                child: const Text('Close Drawer'),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
