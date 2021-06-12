@@ -31,13 +31,13 @@ class _Home extends State<Home> {
   List<DataNotes>? menotes = []; //pour gerer l'actualisation
   List<DataNotes>? compteur = []; //pour gerer les id uniques
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
-  // void _openDrawer() {
-  //   _scaffoldKey.currentState!.openDrawer();
-  // }
-
-  void _closeDrawer() {
-    Navigator.of(context).pop();
+  void _openEndDrawer() {
+    _scaffoldKey.currentState!.openEndDrawer();
   }
+
+  // void _closeEndDrawer() {
+  //   Navigator.of(context).pop();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -93,8 +93,7 @@ class _Home extends State<Home> {
                         size: 30,
                         color: Colors.white,
                       ),
-                      onPressed: () => _scaffoldKey.currentState!.openDrawer(),
-                      highlightColor: Color(0xFFFFFF),
+                      onPressed: _openEndDrawer,
                     ),
                   ),
                 ),
@@ -128,11 +127,7 @@ class _Home extends State<Home> {
                         itemCount: menotes!.length,
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 2,
-                          mainAxisExtent: 250.0,
-                          // if (menotes!.notes.length > 20) {
-                          //   mainAxisExtent: 250.0,
-                          // } else {
-                          // }
+                          mainAxisExtent: 200.0,
                         ),
                         itemBuilder: (BuildContext context, index) {
                           return GestureDetector(
@@ -148,8 +143,6 @@ class _Home extends State<Home> {
                               margin: EdgeInsets.all(8),
                               decoration: BoxDecoration(
                                 color: Color(0xFF272636),
-                                // border: Border.all(
-                                //     width: 0.5, color: const Color(0xFFFFFFFF)),
                                 borderRadius: BorderRadius.vertical(
                                   top: Radius.circular(20.0),
                                   bottom: Radius.circular(20.0),
@@ -163,30 +156,31 @@ class _Home extends State<Home> {
                                   ),
                                 ],
                               ),
-                              child: Padding(
-                                padding: const EdgeInsets.all(15.0),
-                                child: Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  children: [
-                                    Container(
-                                      child: Text(
-                                        capitalize(" ${menotes![index].note} "),
-                                        style: TextStyle(
-                                          fontSize: 16,
-                                          color: Colors.white70,
-                                        ),
-                                        maxLines: 5,
-                                        textAlign: TextAlign.justify,
+                              child: Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Container(
+                                    padding: EdgeInsets.all(10),
+                                    child: Text(
+                                      capitalize("${menotes![index].note}"),
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        color: Colors.white70,
                                       ),
+                                      maxLines: 6,
+                                      // textAlign: TextAlign.justify,
                                     ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(
+                                  ),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Container(
+                                        padding: EdgeInsets.all(10),
+                                        child: Text(
                                           capitalize(
-                                              '${menotes![index].j}/${menotes![index].m}'),
+                                              '${menotes![index].j}/${menotes![index].m.toString()}'),
                                           maxLines: 1,
                                           style: TextStyle(
                                             fontSize: 10,
@@ -194,18 +188,21 @@ class _Home extends State<Home> {
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
-                                        Text(
-                                          "  ${menotes![index].titre}  ",
+                                      ),
+                                      Container(
+                                        padding: EdgeInsets.all(10),
+                                        child: Text(
+                                          "${menotes![index].titre}",
                                           style: TextStyle(
                                             color: Colors.white,
-                                            fontSize: 10,
+                                            fontSize: 12,
                                           ),
                                           maxLines: 1,
                                         ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
                               ),
                             ),
                           );
@@ -222,20 +219,7 @@ class _Home extends State<Home> {
         ],
       ),
       // endDrawerEnableOpenDragGesture: false,
-      endDrawer: Drawer(
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              const Text('This is the Drawer'),
-              ElevatedButton(
-                onPressed: _closeDrawer,
-                child: const Text('Close Drawer'),
-              ),
-            ],
-          ),
-        ),
-      ),
+      endDrawer: Drawer(),
     );
   }
 

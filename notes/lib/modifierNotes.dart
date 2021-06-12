@@ -52,12 +52,44 @@ class _ModifierNotesState extends State<ModifierNotes> {
             icon: Icon(Icons.save),
           ),
           IconButton(
-            onPressed: () {
-              setState(() {
-                NotesDataBase.instance.deleteNote(NewID);
-                Navigator.pop(context);
-              });
-            },
+            onPressed: () => showDialog<String>(
+              context: context,
+              builder: (BuildContext context) => AlertDialog(
+                backgroundColor: Color(0xFF272636),
+                title: const Text(
+                  'Supprimer',
+                  style: TextStyle(color: Colors.white),
+                  textAlign: TextAlign.center,
+                ),
+                content: const Text(
+                  'Êtes vous sûr de vouloir supprimer la note ?',
+                  style: TextStyle(color: Colors.white70),
+                  textAlign: TextAlign.center,
+                ),
+                actions: <Widget>[
+                  TextButton(
+                    onPressed: () => Navigator.pop(context, 'Non'),
+                    child: const Text(
+                      'Non',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      setState(() {
+                        NotesDataBase.instance.deleteNote(NewID);
+                        Navigator.pop(context);
+                        Navigator.pop(context);
+                      });
+                    },
+                    child: const Text(
+                      'Oui',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                ],
+              ),
+            ),
             icon: Icon(Icons.delete),
           )
         ],
@@ -95,7 +127,6 @@ class _ModifierNotesState extends State<ModifierNotes> {
                   ),
                   Container(
                     child: TextFormField(
-                      scrollPhysics: ScrollPhysics(),
                       initialValue: "$NewNote",
                       decoration: InputDecoration(
                         hintStyle: TextStyle(
