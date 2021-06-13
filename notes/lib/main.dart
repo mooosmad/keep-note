@@ -5,6 +5,10 @@ import 'package:notes/ajouternotes.dart';
 import 'package:notes/data/notes.dart';
 import 'package:notes/data/notesDatabase.dart';
 import 'package:notes/modifiernotes.dart';
+import "package:date_time_format/date_time_format.dart";
+import 'package:animated_text_kit/animated_text_kit.dart';
+import "package:url_launcher/url_launcher.dart";
+import 'package:package_info/package_info.dart';
 
 void main() {
   runApp(MyApp());
@@ -35,6 +39,21 @@ class _Home extends State<Home> {
     _scaffoldKey.currentState!.openEndDrawer();
   }
 
+  String datetoday() {
+    DateTime t = DateTime.now();
+    return t.format("j M H:i");
+  }
+
+  void lauchWhatssap({@required number, @required message}) async {
+    String url = "https://wa.me/$number?text=$message";
+
+    await canLaunch(url) ? launch(url) : print("pas de connection");
+  }
+
+  void lauchTelephone({@required mail, @required message}) async {
+    var url = "mailto:$mail?subject=$message";
+    await canLaunch(url) ? launch("$url") : print("no connection");
+  }
   // void _closeEndDrawer() {
   //   Navigator.of(context).pop();
   // }
@@ -177,26 +196,28 @@ class _Home extends State<Home> {
                                         MainAxisAlignment.spaceBetween,
                                     children: [
                                       Container(
+                                        width: 60,
                                         padding: EdgeInsets.all(10),
                                         child: Text(
                                           capitalize(
-                                              '${menotes![index].j}/${menotes![index].m.toString()}'),
+                                              '${menotes![index].dateEnr}'),
                                           maxLines: 1,
                                           style: TextStyle(
-                                            fontSize: 10,
+                                            fontSize: 11,
                                             color: Colors.white70,
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
                                       ),
                                       Container(
+                                        width: 60,
                                         padding: EdgeInsets.all(10),
                                         child: Text(
                                           "${menotes![index].titre}",
                                           style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 12,
-                                          ),
+                                              color: Colors.white,
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.bold),
                                           maxLines: 1,
                                         ),
                                       ),
@@ -219,7 +240,176 @@ class _Home extends State<Home> {
         ],
       ),
       // endDrawerEnableOpenDragGesture: false,
-      endDrawer: Drawer(),
+      endDrawer: Drawer(
+        child: Column(
+          children: [
+            ListView(
+              children: [
+                DrawerHeader(
+                  child: TextLiquidFill(
+                    loadDuration: Duration(seconds: 2),
+                    boxBackgroundColor: Color(0xFF272636),
+                    waveColor: Colors.white,
+                    text: "Paramètres",
+                    textStyle: TextStyle(
+                      fontSize: 30,
+                      color: Colors.white,
+                    ),
+                    boxHeight: 90,
+                    boxWidth: 300,
+                  ),
+                ),
+                ListTile(
+                  title: Text(
+                    'Share...',
+                    style: TextStyle(color: Colors.white, fontSize: 16.0),
+                  ),
+                  leading: Icon(
+                    Icons.share,
+                    color: Colors.white,
+                  ),
+                  onTap: () {
+                    print("Clicked");
+                  },
+                ),
+                ListTile(
+                  title: Text(
+                    'archive',
+                    style: TextStyle(color: Colors.white, fontSize: 16.0),
+                  ),
+                  leading: Icon(
+                    Icons.archive,
+                    color: Colors.white,
+                  ),
+                  onTap: () {
+                    print("Clicked");
+                  },
+                ),
+                ListTile(
+                  title: Text(
+                    'Corbeille',
+                    style: TextStyle(color: Colors.white, fontSize: 16.0),
+                  ),
+                  leading: Icon(
+                    Icons.delete,
+                    color: Colors.white,
+                  ),
+                  onTap: () {
+                    print("Clicked");
+                  },
+                ),
+                ListTile(
+                  title: Text(
+                    'info. developpeur',
+                    style: TextStyle(color: Colors.white, fontSize: 16.0),
+                  ),
+                  leading: Icon(
+                    Icons.info_rounded,
+                    color: Colors.white,
+                  ),
+                  onTap: () => showDialog(
+                    context: context,
+                    builder: (c) {
+                      return AlertDialog(
+                        backgroundColor: Color.fromRGBO(30, 80, 200, 0.9),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        title: Text(
+                          "Information développeur",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 15,
+                          ),
+                        ),
+                        content: Text(
+                          "@copyright by  Mo Smad\n\nNous contacter : ",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: Colors.grey,
+                            fontSize: 15,
+                          ),
+                        ),
+                        actions: [
+                          GestureDetector(
+                            onTap: () {
+                              lauchTelephone(
+                                mail: "mohamedsmad13@gmail.com",
+                                message: "À propos de l'appli de note !",
+                              );
+                              Navigator.pop(context);
+                            },
+                            child: Container(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 30,
+                                vertical: 10,
+                              ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    child: Image.asset(
+                                      "assets/gmail.png",
+                                    ),
+                                    width: 25,
+                                    height: 25,
+                                  ),
+                                  SizedBox(width: 10),
+                                  Text(
+                                    'Mail',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 15,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.pop(context);
+                              lauchWhatssap(
+                                number: "22501145515",
+                                message: "Hi Smad!",
+                              ); //aller sur whatssap
+                            },
+                            child: Container(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 30,
+                                vertical: 10,
+                              ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    child: Image.asset("assets/wha.png"),
+                                    width: 25,
+                                    height: 25,
+                                  ),
+                                  SizedBox(width: 10),
+                                  Text(
+                                    'whatsapp',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 15,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      );
+                    },
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
     );
   }
 

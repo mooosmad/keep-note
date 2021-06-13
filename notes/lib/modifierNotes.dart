@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:notes/data/notes.dart';
 import 'package:notes/data/notesDatabase.dart';
+import "package:date_time_format/date_time_format.dart";
 
 // ignore: must_be_immutable
 class ModifierNotes extends StatefulWidget {
@@ -11,15 +12,22 @@ class ModifierNotes extends StatefulWidget {
 }
 
 class _ModifierNotesState extends State<ModifierNotes> {
-  var NewTitre, NewNote, NewID;
+  var NewTitre, NewNote, NewID, NewDateEnr;
   @override
   void initState() {
     NewTitre = widget.dataNotes.titre;
     NewNote = widget.dataNotes.note;
     NewID = widget.dataNotes.id;
+    NewDateEnr = widget.dataNotes.dateEnr;
     super.initState();
   }
 
+  String datetoday() {
+    DateTime t = DateTime.now();
+    return t.format("j M Y  H:i");
+  }
+
+  List<DataNotes>? menotes = [];
   var titre;
   var note;
   var newData;
@@ -28,6 +36,56 @@ class _ModifierNotesState extends State<ModifierNotes> {
     return Scaffold(
       backgroundColor: Color(0xFF1F1D2B),
       appBar: AppBar(
+        leading: IconButton(
+          onPressed: () => showDialog<String>(
+            context: context,
+            builder: (BuildContext context) => AlertDialog(
+              backgroundColor: Color(0xFF272636),
+              title: const Text(
+                'Enregistrer',
+                style: TextStyle(color: Colors.white),
+                textAlign: TextAlign.center,
+              ),
+              content: const Text(
+                'Voulez vous enregistrez ?',
+                style: TextStyle(color: Colors.white70),
+                textAlign: TextAlign.center,
+              ),
+              actions: <Widget>[
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(context, 'Non');
+                    Navigator.pop(context);
+                  },
+                  child: const Text(
+                    'Non',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
+                TextButton(
+                  onPressed: () {
+                    setState(() {
+                      DataNotes newData = DataNotes(
+                        id: widget.dataNotes.id,
+                        titre: NewTitre,
+                        note: NewNote,
+                        dateEnr: datetoday(),
+                      );
+                      NotesDataBase.instance.updateNote(newData);
+                      Navigator.pop(context);
+                      Navigator.pop(context);
+                    });
+                  },
+                  child: const Text(
+                    'Oui',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          icon: const Icon(Icons.arrow_back_ios),
+        ),
         elevation: 0,
         backgroundColor: Color(0xFF1F1D2B),
         actions: [
@@ -39,11 +97,7 @@ class _ModifierNotesState extends State<ModifierNotes> {
                   id: widget.dataNotes.id,
                   titre: NewTitre,
                   note: NewNote,
-                  j: widget.dataNotes.j,
-                  m: widget.dataNotes.m,
-                  y: widget.dataNotes.y,
-                  heure: widget.dataNotes.heure,
-                  minute: widget.dataNotes.minute,
+                  dateEnr: datetoday(),
                 );
                 NotesDataBase.instance.updateNote(newData);
                 Navigator.pop(context);
@@ -153,11 +207,21 @@ class _ModifierNotesState extends State<ModifierNotes> {
           ],
         ),
       ),
+      bottomSheet: Container(
+        color: Color(0xFF1F1D2B),
+        alignment: Alignment.bottomCenter,
+        height: 50,
+        child: Column(
+          children: [
+            Text(
+              'Dernière modification: ${NewDateEnr}',
+              style: TextStyle(
+                color: Colors.white,
+              ),
+            ),
+          ],
+        ),
+      ),
     );
-  }
-
-  DateTime datetoday() {
-    DateTime t = DateTime.now();
-    return t;
   }
 }

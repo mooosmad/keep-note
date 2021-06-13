@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:notes/data/notes.dart';
 import 'package:notes/data/notesDatabase.dart';
 import 'package:flutter/cupertino.dart';
+import "package:date_time_format/date_time_format.dart";
 
 class AjouteNote extends StatefulWidget {
   @override
@@ -16,6 +17,11 @@ class _AjouterNote extends State<AjouteNote> {
   var id;
   List<DataNotes>? menotes = []; //pour gerer l'actualisation
   List<DataNotes>? compteur = []; //pour gerer les id uniques
+  String datetoday() {
+    DateTime t = DateTime.now();
+    return t.format("j M   H:i ");
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,11 +41,7 @@ class _AjouterNote extends State<AjouteNote> {
                         id: id,
                         titre: titre,
                         note: note,
-                        j: datetoday().day,
-                        m: datetoday().month,
-                        y: datetoday().year,
-                        heure: datetoday().hour,
-                        minute: datetoday().minute,
+                        dateEnr: datetoday(),
                       ),
                     );
                   }
@@ -117,10 +119,5 @@ class _AjouterNote extends State<AjouteNote> {
         ),
       ),
     );
-  }
-
-  DateTime datetoday() {
-    DateTime t = DateTime.now();
-    return t;
   }
 }
