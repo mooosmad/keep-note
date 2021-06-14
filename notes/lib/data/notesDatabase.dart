@@ -27,7 +27,7 @@ class NotesDataBase {
           "CREATE TABLE note(id INTEGER PRIMARY KEY AUTOINCREMENT, titre TEXT, note TEXT, dateEnr TEXT)",
         );
       },
-      version: 2,
+      version: 3,
     );
   }
 

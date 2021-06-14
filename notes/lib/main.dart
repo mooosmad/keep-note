@@ -77,6 +77,7 @@ class _Home extends State<Home> {
         backgroundColor: Color(0xFF4f4bbd),
       ),
       appBar: AppBar(
+        brightness: Brightness.dark,
         backgroundColor: Color(0xFF1F1D2B),
         elevation: 0,
         toolbarHeight: 10,
@@ -241,173 +242,216 @@ class _Home extends State<Home> {
       ),
       // endDrawerEnableOpenDragGesture: false,
       endDrawer: Drawer(
-        child: Column(
-          children: [
-            ListView(
-              children: [
-                DrawerHeader(
-                  child: TextLiquidFill(
-                    loadDuration: Duration(seconds: 2),
-                    boxBackgroundColor: Color(0xFF272636),
-                    waveColor: Colors.white,
-                    text: "Paramètres",
-                    textStyle: TextStyle(
-                      fontSize: 30,
-                      color: Colors.white,
+        child: Container(
+          color: Color(0xFF272636),
+          child: Column(
+            children: [
+              Expanded(
+                child: ListView(
+                  children: [
+                    DrawerHeader(
+                      child: TextLiquidFill(
+                        loadDuration: Duration(seconds: 2),
+                        boxBackgroundColor: Color(0xFF272636),
+                        waveColor: Colors.white,
+                        text: "Paramètres",
+                        textStyle: TextStyle(
+                          fontSize: 30,
+                          color: Colors.white,
+                        ),
+                        boxHeight: 90,
+                        boxWidth: 300,
+                      ),
                     ),
-                    boxHeight: 90,
-                    boxWidth: 300,
-                  ),
+                    ListTile(
+                      title: Text(
+                        'Share...',
+                        style: TextStyle(color: Colors.white, fontSize: 20.0),
+                      ),
+                      leading: Icon(
+                        Icons.share,
+                        color: Colors.white,
+                      ),
+                      onTap: () {
+                        print("Clicked");
+                      },
+                    ),
+                    ListTile(
+                      title: Text(
+                        'archive',
+                        style: TextStyle(color: Colors.white, fontSize: 20.0),
+                      ),
+                      leading: Icon(
+                        Icons.archive,
+                        color: Colors.white,
+                      ),
+                      onTap: () {
+                        print("Clicked");
+                      },
+                    ),
+                    ListTile(
+                      title: Text(
+                        'Corbeille',
+                        style: TextStyle(color: Colors.white, fontSize: 20.0),
+                      ),
+                      leading: Icon(
+                        Icons.delete,
+                        color: Colors.white,
+                      ),
+                      onTap: () {
+                        print("Clicked");
+                      },
+                    ),
+                    ListTile(
+                      title: Text(
+                        'info. developpeur',
+                        style: TextStyle(color: Colors.white, fontSize: 20.0),
+                      ),
+                      leading: Icon(
+                        Icons.info_rounded,
+                        color: Colors.white,
+                      ),
+                      onTap: () => showDialog(
+                        context: context,
+                        builder: (c) {
+                          return AlertDialog(
+                            backgroundColor: Color(0xFF272636),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            title: Text(
+                              "Information développeur",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 16,
+                              ),
+                            ),
+                            content: Text(
+                              "@copyright by  Mo Smad\n\nNous contacter : ",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: Colors.white70,
+                                fontSize: 16,
+                              ),
+                            ),
+                            actions: [
+                              GestureDetector(
+                                onTap: () {
+                                  lauchTelephone(
+                                    mail: "mohamedsmad13@gmail.com",
+                                    message: "À propos de l'appli de note !",
+                                  );
+                                  Navigator.pop(context);
+                                },
+                                child: Container(
+                                  padding: EdgeInsets.symmetric(
+                                    horizontal: 30,
+                                    vertical: 10,
+                                  ),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Container(
+                                        child: Image.asset(
+                                          "assets/gmail.png",
+                                        ),
+                                        width: 25,
+                                        height: 25,
+                                      ),
+                                      SizedBox(width: 10),
+                                      Text(
+                                        'Mail',
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 15,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.pop(context);
+                                  lauchWhatssap(
+                                    number: "22501145515",
+                                    message: "Hi Smad!",
+                                  ); //aller sur whatssap
+                                },
+                                child: Container(
+                                  padding: EdgeInsets.symmetric(
+                                    horizontal: 30,
+                                    vertical: 10,
+                                  ),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Container(
+                                        child: Image.asset("assets/wha.png"),
+                                        width: 25,
+                                        height: 25,
+                                      ),
+                                      SizedBox(width: 10),
+                                      Text(
+                                        'whatsapp',
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 15,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
+                          );
+                        },
+                      ),
+                    ),
+                  ],
                 ),
-                ListTile(
-                  title: Text(
-                    'Share...',
-                    style: TextStyle(color: Colors.white, fontSize: 16.0),
-                  ),
-                  leading: Icon(
-                    Icons.share,
-                    color: Colors.white,
-                  ),
-                  onTap: () {
-                    print("Clicked");
-                  },
-                ),
-                ListTile(
-                  title: Text(
-                    'archive',
-                    style: TextStyle(color: Colors.white, fontSize: 16.0),
-                  ),
-                  leading: Icon(
-                    Icons.archive,
-                    color: Colors.white,
-                  ),
-                  onTap: () {
-                    print("Clicked");
-                  },
-                ),
-                ListTile(
-                  title: Text(
-                    'Corbeille',
-                    style: TextStyle(color: Colors.white, fontSize: 16.0),
-                  ),
-                  leading: Icon(
-                    Icons.delete,
-                    color: Colors.white,
-                  ),
-                  onTap: () {
-                    print("Clicked");
-                  },
-                ),
-                ListTile(
-                  title: Text(
-                    'info. developpeur',
-                    style: TextStyle(color: Colors.white, fontSize: 16.0),
-                  ),
-                  leading: Icon(
-                    Icons.info_rounded,
-                    color: Colors.white,
-                  ),
-                  onTap: () => showDialog(
-                    context: context,
-                    builder: (c) {
-                      return AlertDialog(
-                        backgroundColor: Color.fromRGBO(30, 80, 200, 0.9),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        title: Text(
-                          "Information développeur",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 15,
-                          ),
-                        ),
-                        content: Text(
-                          "@copyright by  Mo Smad\n\nNous contacter : ",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: Colors.grey,
-                            fontSize: 15,
-                          ),
-                        ),
-                        actions: [
-                          GestureDetector(
-                            onTap: () {
-                              lauchTelephone(
-                                mail: "mohamedsmad13@gmail.com",
-                                message: "À propos de l'appli de note !",
+              ),
+              Container(
+                // This align moves the children to the bottom
+                child: Align(
+                  alignment: FractionalOffset.bottomCenter,
+                  // This container holds all the children that will be aligned
+                  // on the bottom and should not scroll with the above ListView
+                  child: Container(
+                    margin: EdgeInsets.all(50),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        FutureBuilder(
+                          future: PackageInfo.fromPlatform(),
+                          builder: (BuildContext context,
+                              AsyncSnapshot<PackageInfo> snaphot) {
+                            if (snaphot.hasData)
+                              return Column(
+                                children: [
+                                  Text(
+                                      "BuilderName : ${snaphot.data!.buildNumber}",
+                                      style: TextStyle(
+                                          color: Colors.white, fontSize: 16.0)),
+                                  Text("Version : ${snaphot.data!.version}",
+                                      style: TextStyle(
+                                          color: Colors.white, fontSize: 16.0)),
+                                  Text("AppName : ${snaphot.data!.appName}",
+                                      style: TextStyle(
+                                          color: Colors.white, fontSize: 16.0)),
+                                ],
                               );
-                              Navigator.pop(context);
-                            },
-                            child: Container(
-                              padding: EdgeInsets.symmetric(
-                                horizontal: 30,
-                                vertical: 10,
-                              ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Container(
-                                    child: Image.asset(
-                                      "assets/gmail.png",
-                                    ),
-                                    width: 25,
-                                    height: 25,
-                                  ),
-                                  SizedBox(width: 10),
-                                  Text(
-                                    'Mail',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 15,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.pop(context);
-                              lauchWhatssap(
-                                number: "22501145515",
-                                message: "Hi Smad!",
-                              ); //aller sur whatssap
-                            },
-                            child: Container(
-                              padding: EdgeInsets.symmetric(
-                                horizontal: 30,
-                                vertical: 10,
-                              ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Container(
-                                    child: Image.asset("assets/wha.png"),
-                                    width: 25,
-                                    height: 25,
-                                  ),
-                                  SizedBox(width: 10),
-                                  Text(
-                                    'whatsapp',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 15,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ],
-                      );
-                    },
+                            return Container();
+                          },
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-              ],
-            ),
-          ],
+              ),
+            ],
+          ),
         ),
       ),
     );
