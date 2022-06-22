@@ -1,6 +1,6 @@
 import 'dart:async';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:notes/ajouternotes.dart';
 import 'package:notes/data/notes.dart';
 import 'package:notes/data/notesDatabase.dart';
@@ -77,10 +77,10 @@ class _Home extends State<Home> {
         backgroundColor: Color(0xFF4f4bbd),
       ),
       appBar: AppBar(
-        brightness: Brightness.dark,
         backgroundColor: Color(0xFF1F1D2B),
         elevation: 0,
         toolbarHeight: 10,
+        systemOverlayStyle: SystemUiOverlayStyle.light,
       ),
       body: Column(
         children: [

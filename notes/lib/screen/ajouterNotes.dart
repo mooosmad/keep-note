@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:notes/data/notes.dart';
 import 'package:notes/data/notesDatabase.dart';
-import 'package:flutter/cupertino.dart';
 import "package:date_time_format/date_time_format.dart";
+import 'package:notes/model/notes.dart';
 
 class AjouteNote extends StatefulWidget {
   @override

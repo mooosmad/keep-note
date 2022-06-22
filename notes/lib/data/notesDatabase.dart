@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
+import 'package:notes/model/notes.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:notes/data/notes.dart';
 
 class NotesDataBase {
   NotesDataBase._();
